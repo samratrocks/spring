@@ -1,7 +1,7 @@
 import AnimationLoop from '@nonphoto/animation-loop'
 import Vector from '@nonphoto/vector'
 import Entity from './entity'
-import { spring } from './spring'
+import { spring, dampen } from './spring'
 
 export default class Main {
 	constructor() {
@@ -17,8 +17,8 @@ export default class Main {
 	}
 
 	handleAnimationFrame() {
-		const impulse = spring(this.center, this.entity.position, 0.01)
-		this.entity.applyImpulse(impulse)
+		const impulse = spring(this.center, this.entity.position, 0.05)
+		this.entity.applyImpulse(dampen(impulse, this.entity.velocity, 0.2))
 		this.entity.update()
 
 		const x = this.entity.position.x * 100
