@@ -9,7 +9,7 @@
     "styles:build": "node-sass src/styles/main.scss dist/styles/bundle.css --recursive --output-style=expanded",
     "styles:watch": "npm run styles:build -- --watch",
     "build": "npm-run-all *:build",
-    "watch": "npm-run-all --parallel *:watch",
+    "watch": "npm run build && npm-run-all --parallel *:watch",
     "server": "http-server -o"
   },
   "author": "Jonas Luebbers",
