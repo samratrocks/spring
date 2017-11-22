@@ -15,7 +15,8 @@
   "author": "Jonas Luebbers",
   "license": "Unlicense",
   "dependencies": {
-    "@nonphoto/animation-loop": "^1.0.0"
+    "@nonphoto/animation-loop": "^1.0.0",
+    "@nonphoto/vector": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
