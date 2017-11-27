@@ -18,7 +18,7 @@ export default class Main {
 
 	handleAnimationFrame() {
 		const velocity = Vector.clone(this.entity.velocity).subtract(this.center.velocity)
-		const impulse = spring(this.center.position, this.entity.position, 0.05)
+		const impulse = spring(this.center.position, this.entity.position, 0.05, 0.1)
 		this.entity.applyImpulse(dampen(impulse, velocity, 0.1))
 		this.entity.update()
 

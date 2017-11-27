@@ -6,8 +6,9 @@ function dampen(f, v, constant = 1) {
 }
 
 function spring(a, b, constant = 1, length = 0) {
-    const separation = Vector.clone(a).subtract(b)
-    const force = separation.scale(constant)
+    const separation = Vector.clone(b).subtract(a)
+    const separationLength = separation.length
+    const force = separation.normalize().scale((separationLength - length) * -constant)
 
     return force
 }
