@@ -5,12 +5,19 @@ function dampen(f, v, constant = 1) {
     return Vector.clone(f).subtract(dampeningForce)
 }
 
-function spring(a, b, constant = 1, length = 0) {
+function spring(a, b, constant = 1, length = 0, expansion = true, compression = true) {
     const separation = Vector.clone(b).subtract(a)
-    const separationLength = separation.length
-    const force = separation.normalize().scale((separationLength - length) * -constant)
+    const lengthDifference = separation.length - length
 
-    return force
+    if (!expansion && lengthDifference < 0) {
+        return new Vector()
+    }
+
+    if (!compression && lengthDifference > 0) {
+        return new Vector()
+    }
+
+    return separation.normalize().scale((lengthDifference) * -constant)
 }
 
 export { spring, dampen }

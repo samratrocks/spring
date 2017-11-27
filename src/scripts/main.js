@@ -25,10 +25,11 @@ export default class Main {
 		const horizontalMouse = Vector.clone(this.mouse)
 		horizontalMouse.y = 0.5
 
-		const mouseImpulse = spring(horizontalMouse, this.entity.position, 0.05, 0.1)
+		const mouseImpulse = spring(horizontalMouse, this.entity.position, 0.1, 0.1, true, false)
 		const centerImpulse = spring(this.center, this.entity.position, 0.05)
+		const impulse = mouseImpulse.add(centerImpulse)
 
-		this.entity.applyImpulse(dampen(mouseImpulse.add(centerImpulse), relativeVelocity, 0.4))
+		this.entity.applyImpulse(dampen(impulse, relativeVelocity, 0.2))
 		this.entity.update()
 
 		const x = this.entity.position.x * 100
