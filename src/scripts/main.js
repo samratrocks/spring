@@ -10,15 +10,16 @@ export default class Main {
 		this.animationLoop = new AnimationLoop(this.handleAnimationFrame.bind(this))
 		this.animationLoop.start()
 
-		this.center = new Vector(0.5, 0.5)
+		this.center = new Entity(0.5, 0.5)
 		this.entity = new Entity(0.5, 0.5)
 
 		document.addEventListener('click', this.handleClick.bind(this))
 	}
 
 	handleAnimationFrame() {
-		const impulse = spring(this.center, this.entity.position, 0.05)
-		this.entity.applyImpulse(dampen(impulse, this.entity.velocity, 0.2))
+		const velocity = Vector.clone(this.entity.velocity).subtract(this.center.velocity)
+		const impulse = spring(this.center.position, this.entity.position, 0.05)
+		this.entity.applyImpulse(dampen(impulse, velocity, 0.1))
 		this.entity.update()
 
 		const x = this.entity.position.x * 100
