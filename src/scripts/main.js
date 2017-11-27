@@ -10,24 +10,42 @@ export default class Main {
 		this.animationLoop = new AnimationLoop(this.handleAnimationFrame.bind(this))
 		this.animationLoop.start()
 
-		this.center = new Entity(0.5, 0.5)
+		this.mouse = new Vector(0.5, 0.5)
+		this.center = new Vector(0.5, 0.5)
 		this.entity = new Entity(0.5, 0.5)
 
-		document.addEventListener('click', this.handleClick.bind(this))
+		document.addEventListener('mousemove', this.handleMouseMove.bind(this))
+		document.addEventListener('mousedown', this.handleMouseDown.bind(this))
+		document.addEventListener('mouseup', this.handleMouseUp.bind(this))
 	}
 
 	handleAnimationFrame() {
-		const velocity = Vector.clone(this.entity.velocity).subtract(this.center.velocity)
-		const impulse = spring(this.center.position, this.entity.position, 0.05, 0.1)
-		this.entity.applyImpulse(dampen(impulse, velocity, 0.1))
+		const relativeVelocity = this.entity.velocity
+
+		const horizontalMouse = Vector.clone(this.mouse)
+		horizontalMouse.y = 0.5
+
+		const mouseImpulse = spring(horizontalMouse, this.entity.position, 0.05, 0.1)
+		const centerImpulse = spring(this.center, this.entity.position, 0.05)
+
+		this.entity.applyImpulse(dampen(mouseImpulse.add(centerImpulse), relativeVelocity, 0.4))
 		this.entity.update()
 
 		const x = this.entity.position.x * 100
 		this.panel.style.transform = `translate3d(${x}%, 0, 0)`
 	}
 
-	handleClick(event) {
-		this.entity.position.x = event.clientX / window.innerWidth
+	handleMouseMove(event) {
+		this.mouse.x = event.clientX / window.innerWidth
+		this.mouse.y = event.clientY / window.innerHeight
+	}
+
+	handleMouseDown() {
+		this.mouseIsDown = true
+	}
+
+	handleMouseUp() {
+		this.mouseIsDown = false
 	}
 }
 
